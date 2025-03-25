@@ -1,75 +1,76 @@
-# Tienda Online con Java y Spring
+# Online Shop with Java and Spring
 
-## ✨ Descripción
-Este proyecto es una tienda online desarrollada en Java utilizando el framework Spring. Permite gestionar productos, usuarios y pedidos de manera eficiente, proporcionando una API REST para las operaciones principales.
+## ✨ Description
+This project is an online shop developed in Java using the Spring framework. It allows efficient management of products, users, and orders, providing a REST API for core operations.
 
-## 📑 Características principales
-- Gestión de productos: Creación, actualización, eliminación y consulta.
-- Manejo de usuarios y autenticación.
-- Creación y seguimiento de pedidos.
-- Integración con base de datos relacional.
-- Documentación de API con Swagger.
+## 📑 Key Features
+- Product management: Create, update, delete, and query products.
+- User management and authentication.
+- Order creation and tracking.
+- Integration with a relational database.
+- API documentation with Swagger.
 
-## 📆 Tecnologías utilizadas
+## 📆 Technologies Used
 - Java 17
 - Spring Boot
 - Spring Data JPA
 - Spring Security
-- H2/PostgreSQL (según configuración)
+- H2/PostgreSQL (depending on configuration)
 - Maven
 - Swagger/OpenAPI
 
-## ♻ Requisitos previos
-- Tener instalado Java 17 o superior.
-- Maven instalado y configurado.
-- Base de datos configurada (H2 o PostgreSQL).
+## ♻ Prerequisites
+- Java 17 or higher installed.
+- Maven installed and configured.
+- Configured database (H2 or PostgreSQL).
 
-## ⛓ Instalación
-1. Clona el repositorio:
+## ⛓ Installation
+1. Clone the repository:
 ```bash
 git clone https://github.com/eldaniga/OnlineShop.git
 ```
 
-2. Entra en la carpeta del proyecto:
+2. Navigate into the project folder:
 ```bash
-cd tu-repositorio
+cd your-repository
 ```
 
-3. Configura el archivo `application.properties` o `application.yml`.
+3. Configure the `application.properties` or `application.yml` file.
 
-4. Compila el proyecto:
+4. Build the project:
 ```bash
 mvn clean install
 ```
 
-5. Ejecuta la aplicación:
+5. Run the application:
 ```bash
 mvn spring-boot:run
 ```
 
-## 🔍 Uso
-- Accede a la API en: `http://localhost:8080/api`
-- Documentación Swagger: `http://localhost:8080/swagger-ui.html`
+## 🔍 Usage
+- Access the API at: `http://localhost:8080/api`
+- Swagger Documentation: `http://localhost:8080/swagger-ui.html`
 
-## 🔧 Contribución
-1. Haz un fork del proyecto.
-2. Crea una rama para tu función o corrección:
+## 🔧 Contributing
+1. Fork the project.
+2. Create a branch for your feature or fix:
 ```bash
-git checkout -b feature/nueva-funcion
+git checkout -b feature/new-feature
 ```
-3. Realiza tus cambios y haz un commit:
+3. Make your changes and commit:
 ```bash
-git commit -m "Agrega nueva función"
+git commit -m "Add new feature"
 ```
-4. Envía tus cambios:
+4. Push your changes:
 ```bash
-git push origin feature/nueva-funcion
+git push origin feature/new-feature
 ```
-5. Crea un Pull Request en GitHub.
+5. Create a Pull Request on GitHub.
 
-## 💼 Licencia
-Este proyecto está bajo la licencia MIT.
+## 💼 License
+This project is licensed under the MIT License.
 
 ---
 
-✨ **Creado con pasión por [Erik](https://github.com/eldaniga)**
+✨ **Created with passion by [Erik](https://github.com/eldaniga)**
+
