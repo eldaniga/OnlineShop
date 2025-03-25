@@ -1,9 +1,21 @@
-public class Usuario {
+package com.example.demo;
+
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
+
     private String email;
     private String password;
     private String nombre;
     private String apellidos;
 
+
+    public Usuario(){
+        this.email="";
+        this.password = "";
+        this.nombre = "";
+        this.apellidos = "";
+    }
     // Constructor
     public Usuario(String email, String password, String nombre, String apellidos) {
         this.email = email;

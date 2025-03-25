@@ -23,9 +23,9 @@ public class HomeController {
         return "index2";
     };
 
-    @GetMapping("/formulario")
+    @GetMapping("/formulario2")
     public String retornarForm(){
-        return "formulario";
+        return "formulario2";
     };
     @PostMapping("/trabajo")
     public String retornarOK(@RequestParam("email_form") String email, @RequestParam("password_form") String password){
@@ -72,8 +72,31 @@ public class HomeController {
         return "index2";
     }
 
+    @PostMapping("/datosusuario")
+    public String emailList (HttpServletRequest request, HttpServletResponse response) {
+        // Se leen los parámetros
+        String nombre = request.getParameter("name_form");
+        String apellidos = request.getParameter("surnname_form");
+        String email = request.getParameter("email_form");
+        String password = request.getParameter("password_form");
+        System.out.println(nombre + apellidos +email+password);
+        // Se crea el objeto usuario (se supone que existe la clase Usuario)
+        Usuario usuario = new Usuario(nombre, apellidos, email, password);
+
+        //String userId = basededatos.inserta(usuario);
+
+        // Dicho string se guardará en una cookie permanente para poder identificar
+        // en el futuro al usuario cuando vuelva a navegar por el sitio web
+        Cookie c = new Cookie("userIdCookie", "jacinto");
+        c.setMaxAge(60 * 60 * 24 * 365 * 2);
+        c.setPath("/");
+        response.addCookie(c);
+        // De forma adicional, se guarda en la sesión
+        // el mismo objeto que en la base de datos
+        HttpSession session = request.getSession();
+        session.setAttribute("usuario", usuario);
 
 
-
-
+        return "responsed";
+    }
 }
