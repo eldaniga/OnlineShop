@@ -16,35 +16,19 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
-    //peticion que esperamos recibir
+
 
     @GetMapping("/")
-    public String retornar(){
-        return "index2";
-    };
-
-    @GetMapping("/formulario2")
     public String retornarForm(){
         return "formulario2";
     };
-    @PostMapping("/trabajo")
-    public String retornarOK(@RequestParam("email_form") String email, @RequestParam("password_form") String password){
-        System.out.println("Email: " + email + " Password: " + password);
-        return "respuestaTrabajo";
-    };
-    @GetMapping("/jacinto")
-    public String retornarJacinto () {
-        return "index2";
-    }
 
     @GetMapping("/horasesion")
     public String horasesion (HttpServletRequest request, Model model){
             HttpSession sesion = request.getSession(true);
             Date date = (Date)sesion.getAttribute("date");
             String mensajeAcceso;
-
-
-
+            
             if(date !=null){
                 mensajeAcceso = "Ultimo acceso de la sesion "+date;
             }else{
@@ -87,13 +71,18 @@ public class HomeController {
 
         // Dicho string se guardará en una cookie permanente para poder identificar
         // en el futuro al usuario cuando vuelva a navegar por el sitio web
-        Cookie c = new Cookie("userIdCookie", "jacinto");
+        Cookie c = new Cookie("userIdCookie", email);
         c.setMaxAge(60 * 60 * 24 * 365 * 2);
         c.setPath("/");
         response.addCookie(c);
+        //System.out.println(response.getC);
         // De forma adicional, se guarda en la sesión
         // el mismo objeto que en la base de datos
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            //si no existe una sesion asociada, reenvia al login
+            return "formulario2";
+        }
         session.setAttribute("usuario", usuario);
 
 
