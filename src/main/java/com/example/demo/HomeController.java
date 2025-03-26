@@ -19,7 +19,9 @@ public class HomeController {
 
 
     @GetMapping("/")
-    public String retornarForm(){
+    public String retornarForm(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(3600); //modificar el tiempo de duracion de las cookies temporales
         return "formulario2";
     };
 
@@ -45,7 +47,7 @@ public class HomeController {
 
 
     }
-
+        //delete at the end of the practice
     @GetMapping("/addCookie")
     public String ejemplocookie(HttpServletResponse response){
         Cookie c = new Cookie("userIdCookie", "12345");
@@ -87,5 +89,13 @@ public class HomeController {
 
 
         return "responsed";
+    }
+
+
+    @GetMapping("/logout")
+    public String logoutSession(HttpSession session){
+        session.invalidate();
+        return "formulario2";
+
     }
 }
