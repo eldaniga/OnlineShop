@@ -4,10 +4,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 import org.apache.coyote.Request;
 import org.springframework.stereotype.Controller;
@@ -26,7 +24,22 @@ public class HomeController {
     };
 
         //delete at the end of the practice
+    @PostMapping("/datoslogin")
+    public String datosLogin(HttpServletRequest request){
+        String usuario = request.getParameter("user_form");
+        String password = request.getParameter("password_form");
+        System.out.println(usuario + " " + password);
+        UsuariosDAOTest dao = new UsuariosDAOTest();
+        ArrayList<UsuarioDTO> usuarios = dao.leeUsuarios();
 
+        //its worked
+        for(UsuarioDTO usuarioArray : usuarios){
+            if(usuarioArray.getUsuario().equals(usuario) && usuarioArray.getContraseña().equals(password)){
+                return "itsRegistered";
+            }
+        }
+        return "formulario2";
+    }
     @PostMapping("/datosusuario")
     public String emailList (HttpServletRequest request, HttpServletResponse response) {
         // Se leen los parámetros
