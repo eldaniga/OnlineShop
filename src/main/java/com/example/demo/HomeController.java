@@ -25,38 +25,7 @@ public class HomeController {
         return "formulario2";
     };
 
-    @GetMapping("/horasesion")
-    public String horasesion (HttpServletRequest request, Model model){
-            HttpSession sesion = request.getSession(true);
-            Date date = (Date)sesion.getAttribute("date");
-            String mensajeAcceso;
-            
-            if(date !=null){
-                mensajeAcceso = "Ultimo acceso de la sesion "+date;
-            }else{
-                mensajeAcceso = "Este es el primer acceso de la sesion";
-            }
-
-            date = new Date();
-            sesion.setAttribute("date", date);
-            String mensajeFecha = "Fecha Actual: " + date;
-            model.addAttribute("mensajeAcceso", mensajeAcceso);
-            model.addAttribute("mensajeFecha", mensajeFecha);
-
-            return "horasesion";
-
-
-    }
         //delete at the end of the practice
-    @GetMapping("/addCookie")
-    public String ejemplocookie(HttpServletResponse response){
-        Cookie c = new Cookie("userIdCookie", "12345");
-
-        c.setMaxAge(60*60*24*365*2);
-        c.setPath("/");
-        response.addCookie(c);
-        return "index2";
-    }
 
     @PostMapping("/datosusuario")
     public String emailList (HttpServletRequest request, HttpServletResponse response) {
@@ -92,6 +61,10 @@ public class HomeController {
     }
 
 
+    @GetMapping("/login")
+    public String loginSession(){
+        return "formulario";
+    }
     @GetMapping("/logout")
     public String logoutSession(HttpSession session){
         session.invalidate();

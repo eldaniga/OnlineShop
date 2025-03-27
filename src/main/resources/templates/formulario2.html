@@ -12,14 +12,6 @@
     <h2>Registro</h2>
     <form id="formulario2" name= "formulario2" action="/datosusuario" method="post">
         <div class="form-group">
-            <label for="email">Correo Electrónico</label>
-            <input type="email" id="email" name="email_form" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password_form" required>
-        </div>
-        <div class="form-group">
             <label for="nameNamed">Nombre</label>
             <input type="text" id="nameNamed" name="name_form" required>
         </div>
@@ -27,8 +19,22 @@
             <label for="surnname">Apellidos</label>
             <input type="text" id="surnname" name="surnname_form" required>
         </div>
+        <div class="form-group">
+            <label for="alias">Usuario</label>
+            <input type="text" id="alias" name="alais_form" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" name="email_form" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password_form" required>
+        </div>
+
         <button type="submit" form="formulario2">Registrarse</button>
     </form>
+    <p>Si ya tiene una cuenta, <a href="/login">clické aquí</a></p>
 </div>
 </body>
 </html>
