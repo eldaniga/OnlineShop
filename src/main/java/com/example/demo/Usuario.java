@@ -3,11 +3,13 @@ package com.example.demo;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
+    private String nombre;
+    private String apellidos;
+    private String usuario;
 
     private String email;
     private String password;
-    private String nombre;
-    private String apellidos;
+
 
 
     public Usuario(){
@@ -15,16 +17,29 @@ public class Usuario implements Serializable {
         this.password = "";
         this.nombre = "";
         this.apellidos = "";
+        this.usuario = usuario;
     }
     // Constructor
-    public Usuario(String email, String password, String nombre, String apellidos) {
-        this.email = email;
-        this.password = password;
+    public Usuario(String nombre, String apellidos, String usuario, String email, String password ) {
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.usuario = usuario;
+        this.email = email;
+        this.password = password;
+
     }
 
     // Getters
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+    public String getUsuario() {
+        return usuario;
+    }
     public String getEmail() {
         return email;
     }
@@ -33,15 +48,20 @@ public class Usuario implements Serializable {
         return password;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
 
-    public String getApellidos() {
-        return apellidos;
-    }
 
     // Setters
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+    public void setUsuario(String usuario) {
+        this.usuario=usuario;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -50,13 +70,6 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
 
     @Override
     public String toString() {
@@ -64,6 +77,7 @@ public class Usuario implements Serializable {
                 "email='" + email + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
+                ", usuario='" + usuario + '\'' +
                 '}';
     }
 }

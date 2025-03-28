@@ -7,17 +7,25 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
 
-
+    @Autowired
+    private UsuariosDAOTest dao;
     @GetMapping("/")
     public String retornarForm(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(3600); //modificar el tiempo de duracion de las cookies temporales
+        HttpSession session = request.getSession(false);
+        if(session != null){
+            if(session.getAttribute("usuario") != null){
+                return "productos";
+            }
+        }else{
+            session = request.getSession(true);
+        }
         return "formulario2";
     };
 
@@ -27,7 +35,7 @@ public class HomeController {
         String usuario = request.getParameter("user_form");
         String password = request.getParameter("password_form");
         System.out.println(usuario + " " + password);
-        UsuariosDAOTest dao = new UsuariosDAOTest();
+
         ArrayList<UsuarioDTO> usuarios = dao.leeUsuarios();
 
         //its worked
@@ -48,11 +56,13 @@ public class HomeController {
         // Se leen los parámetros
         String nombre = request.getParameter("name_form");
         String apellidos = request.getParameter("surnname_form");
+        String usuario = request.getParameter("alias_form");
         String email = request.getParameter("email_form");
         String password = request.getParameter("password_form");
+
         System.out.println(nombre + apellidos +email+password);
         // Se crea el objeto usuario (se supone que existe la clase Usuario)
-        Usuario usuario = new Usuario(nombre, apellidos, email, password);
+        Usuario usuarioObject = new Usuario(nombre, apellidos,usuario, email, password);
 
         //String userId = basededatos.inserta(usuario);
 
@@ -70,7 +80,7 @@ public class HomeController {
             //si no existe una sesion asociada, reenvia al register
             return "formulario2";
         }
-        session.setAttribute("usuario", usuario);
+        session.setAttribute("usuario", usuarioObject);
 
 
         return "responsed";
@@ -83,6 +93,7 @@ public class HomeController {
             return "formulario";
         }
         if(session.getAttribute("usuario") != null){
+
             return "productos";  //si existe, envialo a productos
         }
         return "formulario";
