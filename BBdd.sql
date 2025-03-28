@@ -4,3 +4,7 @@ CREATE DATABASE usuarios_tienda;
 
 
 USE usuarios_tienda;
+
+
+CREATE TABLE usuarios(
+);

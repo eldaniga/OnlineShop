@@ -7,9 +7,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.*;
 
-import org.apache.coyote.Request;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -35,7 +33,12 @@ public class HomeController {
         //its worked
         for(UsuarioDTO usuarioArray : usuarios){
             if(usuarioArray.getUsuario().equals(usuario) && usuarioArray.getContraseña().equals(password)){
-                return "itsRegistered";
+                HttpSession session = request.getSession(false);
+                UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
+                session.setAttribute("usuario", usuarioObjeto);
+
+
+                return "productos";
             }
         }
         return "formulario2";
@@ -64,7 +67,7 @@ public class HomeController {
         // el mismo objeto que en la base de datos
         HttpSession session = request.getSession(false);
         if(session == null){
-            //si no existe una sesion asociada, reenvia al login
+            //si no existe una sesion asociada, reenvia al register
             return "formulario2";
         }
         session.setAttribute("usuario", usuario);
@@ -75,8 +78,16 @@ public class HomeController {
 
 
     @GetMapping("/login")
-    public String loginSession(){
+    public String loginSession(HttpSession session){
+        if(session == null){  //si la session no existe envíalo a login
+            return "formulario";
+        }
+        if(session.getAttribute("usuario") != null){
+            return "productos";  //si existe, envialo a productos
+        }
         return "formulario";
+
+
     }
     @GetMapping("/logout")
     public String logoutSession(HttpSession session){
