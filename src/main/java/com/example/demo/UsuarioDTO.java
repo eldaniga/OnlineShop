@@ -38,4 +38,6 @@ public class UsuarioDTO {
                 "usuario='" + usuario + '\'' +
                 ", contraseña='********'}"; // Ocultar contraseña por seguridad
     }
+
+
 }

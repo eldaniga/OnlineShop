@@ -13,11 +13,12 @@ public class Usuario implements Serializable {
 
 
     public Usuario(){
-        this.email="";
-        this.password = "";
         this.nombre = "";
         this.apellidos = "";
-        this.usuario = usuario;
+        this.usuario = "";
+        this.email="";
+        this.password = "";
+
     }
     // Constructor
     public Usuario(String nombre, String apellidos, String usuario, String email, String password ) {
@@ -28,6 +29,7 @@ public class Usuario implements Serializable {
         this.password = password;
 
     }
+
 
     // Getters
     public String getNombre() {

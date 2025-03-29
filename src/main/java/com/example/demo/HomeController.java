@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
+    private final UsuariosDAOTest dao;
+    public HomeController(){
+        this.dao = new UsuariosDAOTest();
+    }
 
-    @Autowired
-    private UsuariosDAOTest dao;
+    @Autowired  // <-- IMPORTANTE: Permite que Spring inyecte el bean
+    public HomeController(UsuariosDAOTest usuariosDAOTest) {
+        this.dao = usuariosDAOTest;
+    }
     @GetMapping("/")
     public String retornarForm(HttpServletRequest request){
         HttpSession session = request.getSession(false);
@@ -27,7 +33,7 @@ public class HomeController {
             session = request.getSession(true);
         }
         return "formulario2";
-    };
+    }
 
         //delete at the end of the practice
     @PostMapping("/datoslogin")
@@ -36,11 +42,11 @@ public class HomeController {
         String password = request.getParameter("password_form");
         System.out.println(usuario + " " + password);
 
-        ArrayList<UsuarioDTO> usuarios = dao.leeUsuarios();
+        List<Usuario> usuarios = dao.leeUsuarios();
 
         //its worked
-        for(UsuarioDTO usuarioArray : usuarios){
-            if(usuarioArray.getUsuario().equals(usuario) && usuarioArray.getContraseña().equals(password)){
+        for(Usuario usuarioArray : usuarios){
+            if(usuarioArray.getUsuario().equals(usuario) && usuarioArray.getPassword().equals(password)){
                 HttpSession session = request.getSession(false);
                 UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
                 session.setAttribute("usuario", usuarioObjeto);
@@ -53,6 +59,7 @@ public class HomeController {
     }
     @PostMapping("/datosusuario")
     public String emailList (HttpServletRequest request, HttpServletResponse response) {
+
         // Se leen los parámetros
         String nombre = request.getParameter("name_form");
         String apellidos = request.getParameter("surnname_form");
@@ -63,6 +70,7 @@ public class HomeController {
         System.out.println(nombre + apellidos +email+password);
         // Se crea el objeto usuario (se supone que existe la clase Usuario)
         Usuario usuarioObject = new Usuario(nombre, apellidos,usuario, email, password);
+        System.out.println(dao.insertaUsuario(usuarioObject));
 
         //String userId = basededatos.inserta(usuario);
 
@@ -102,6 +110,9 @@ public class HomeController {
     }
     @GetMapping("/logout")
     public String logoutSession(HttpSession session){
+        if(session == null){
+            return "formulario2";
+        }
         session.invalidate();
         return "formulario2";
 
