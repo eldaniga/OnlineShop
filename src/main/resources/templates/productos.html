@@ -52,13 +52,13 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    addEventListener("DOMContentLoaded", ()=>{
         if ('${mensajeToast}') {
             setTimeout(function() {
-                document.getElementsByClassName('toast').classList.remove('show');
+                document.querySelector('.toast').classList.remove('show');
             }, 2000); // 2000 milisegundos = 2 segundos
         }
-    };
+    });
     /*]]>*/
 </script>
 
