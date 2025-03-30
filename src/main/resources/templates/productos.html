@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
         .navbar {
@@ -25,8 +26,41 @@
             padding: 25px;
         }
     </style>
+    <style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none; /* Oculto por defecto */
+            z-index: 1000; /* Asegura que esté encima de otros elementos */
+        }
+
+        .toast.show {
+            display: block; /* Muestra el toast */
+        }
+    </style>
 </head>
 <body>
+
+
+<div class="toast" th:classappend="${mensajeToast} ? 'show' : ''">
+    <span th:text="${mensajeToast}"></span>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        if ('${mensajeToast}') {
+            setTimeout(function() {
+                document.getElementsByClassName('toast').classList.remove('show');
+            }, 2000); // 2000 milisegundos = 2 segundos
+        }
+    };
+    /*]]>*/
+</script>
 
 <div class="jumbotron">
     <div class="container text-center">

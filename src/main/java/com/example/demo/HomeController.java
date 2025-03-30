@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -25,10 +26,13 @@ public class HomeController {
         this.dao = usuariosDAOTest;
     }
     @GetMapping("/")
-    public String retornarForm(HttpServletRequest request){
+
+
+    public String retornarForm(HttpServletRequest request, Model model){
         HttpSession session = request.getSession(false);
         if(session != null){
             if(session.getAttribute("usuario") != null){
+                model.addAttribute("mensajeToast", "Operación completada con éxito!");
                 return "productos";
             }
         }else{
@@ -39,7 +43,7 @@ public class HomeController {
 
         //delete at the end of the practice
     @PostMapping("/datoslogin")
-    public String datosLogin(HttpServletRequest request){
+    public String datosLogin(HttpServletRequest request, Model model){
         String usuario = request.getParameter("user_form");
         String password = request.getParameter("password_form");
         System.out.println(usuario + " " + password);
@@ -52,6 +56,7 @@ public class HomeController {
                 HttpSession session = request.getSession(false);
                 UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
                 session.setAttribute("usuario", usuarioObjeto);
+                model.addAttribute("mensajeToast", "Operación completada con éxito!");
 
 
                 return "productos";
@@ -93,7 +98,7 @@ public class HomeController {
         session.setAttribute("usuario", usuarioObject);
 
 
-        return "responsed";
+        return "productos";
     }
 
 

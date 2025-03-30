@@ -35,7 +35,7 @@ public class UsuariosDAOTest {
     }  */
 
     public boolean insertaUsuario(Usuario usuario){
-        String sql = "insert into usuarios(usuario, nombre, apellidos, email, contraseña) values(?,?,?,?,?);";
+        String sql = "insert into usuarios( nombre, apellidos, alias, email, contraseña) values(?,?,?,?,?);";
         this.jdbcTemplate.update(sql,  usuario.getNombre(), usuario.getApellidos(), usuario.getUsuario(), usuario.getEmail(), usuario.getPassword());
         return true;
     }
