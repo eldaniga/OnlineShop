@@ -20,9 +20,6 @@ public class UsuariosDAOTest {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public UsuariosDAOTest() {
-        this.jdbcTemplate = new JdbcTemplate();
-    }
 
     /*public  ArrayList<UsuarioDTO> leeUsuarios(){
         ArrayList<UsuarioDTO> lista = new ArrayList();
@@ -44,7 +41,7 @@ public class UsuariosDAOTest {
     }
 
     public List<Usuario> leeUsuarios() {
-        String sql = "SELECT id, nombre, apellidos, usuario, email, contraseña FROM usuarios";
+        String sql = "SELECT id, nombre, apellidos, alias, email, contraseña FROM usuarios";
         return jdbcTemplate.query(sql, usuarioRowMapper);
     }
 
@@ -52,10 +49,10 @@ public class UsuariosDAOTest {
 
     private final RowMapper<Usuario> usuarioRowMapper = (rs, rowNum) ->
             new Usuario(
-
+                    rs.getString("alias"),
                     rs.getString("nombre"),
                     rs.getString("apellidos"),
-                    rs.getString("usuario"),
+
                     rs.getString("email"),
                     rs.getString("contraseña")  // Mapea la contraseña
             );

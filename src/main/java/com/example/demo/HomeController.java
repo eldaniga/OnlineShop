@@ -8,15 +8,17 @@ import jakarta.servlet.http.HttpSession;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.sql.DataSource;
 
 @Controller
 public class HomeController {
     private final UsuariosDAOTest dao;
-    public HomeController(){
-        this.dao = new UsuariosDAOTest();
-    }
+
 
     @Autowired  // <-- IMPORTANTE: Permite que Spring inyecte el bean
     public HomeController(UsuariosDAOTest usuariosDAOTest) {

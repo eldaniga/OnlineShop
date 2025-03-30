@@ -1,7 +1,7 @@
 package com.example.demo;
 
 public class UsuarioDTO {
-    private String usuario;
+    private String alias;
     private String contraseña;
 
     // Constructor vacío
@@ -9,18 +9,18 @@ public class UsuarioDTO {
     }
 
     // Constructor con parámetros
-    public UsuarioDTO(String usuario, String contraseña) {
-        this.usuario = usuario;
+    public UsuarioDTO(String alias, String contraseña) {
+        this.alias = alias;
         this.contraseña = contraseña;
     }
 
     // Getters y Setters
     public String getUsuario() {
-        return usuario;
+        return alias;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setUsuario(String alias) {
+        this.alias = alias;
     }
 
     public String getContraseña() {
@@ -35,7 +35,7 @@ public class UsuarioDTO {
     @Override
     public String toString() {
         return "UsuarioDTO{" +
-                "usuario='" + usuario + '\'' +
+                "usuario='" + alias+ '\'' +
                 ", contraseña='********'}"; // Ocultar contraseña por seguridad
     }
 
