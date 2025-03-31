@@ -45,6 +45,15 @@ public class UsuariosDAOTest {
         return jdbcTemplate.query(sql, usuarioRowMapper);
     }
 
+    public Usuario findByUsername(String username) {
+        String sql = "SELECT * FROM usuarios WHERE username = ?";
+        return jdbcTemplate.queryForObject(sql, usuarioRowMapper, username);
+    }
+    public Usuario findRoleByUsername(String username) {
+        String sql = "SELECT role FROM roles WHERE alias = ?";
+        return jdbcTemplate.queryForObject(sql,usuarioRowMapper, username);
+    }
+
 
 
     private final RowMapper<Usuario> usuarioRowMapper = (rs, rowNum) ->
@@ -54,7 +63,8 @@ public class UsuariosDAOTest {
                     rs.getString("apellidos"),
 
                     rs.getString("email"),
-                    rs.getString("contraseña")  // Mapea la contraseña
+                    rs.getString("contraseña"),
+                    rs.getString("role")
             );
 
 

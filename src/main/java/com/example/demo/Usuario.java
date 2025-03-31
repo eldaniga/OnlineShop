@@ -9,6 +9,7 @@ public class Usuario implements Serializable {
 
     private String email;
     private String password;
+    private String role;
 
 
 
@@ -18,15 +19,17 @@ public class Usuario implements Serializable {
         this.usuario = "";
         this.email="";
         this.password = "";
+        this.role="";
 
     }
     // Constructor
-    public Usuario(String nombre, String apellidos, String usuario, String email, String password ) {
+    public Usuario(String nombre, String apellidos, String usuario, String email, String password, String role) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.usuario = usuario;
         this.email = email;
         this.password = password;
+        this.role = role;
 
     }
 
@@ -49,6 +52,9 @@ public class Usuario implements Serializable {
     public String getPassword() {
         return password;
     }
+    public String getRole() {
+        return role;
+    }
 
 
 
@@ -70,6 +76,9 @@ public class Usuario implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void setRole(String role) {
+        this.role=role;
     }
 
 

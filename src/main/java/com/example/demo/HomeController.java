@@ -48,11 +48,9 @@ public class HomeController {
         String password = request.getParameter("password_form");
         System.out.println(usuario + " " + password);
 
-        List<Usuario> usuarios = dao.leeUsuarios();
-
-        //its worked
-        for(Usuario usuarioArray : usuarios){
-            if(usuarioArray.getUsuario().equals(usuario) && usuarioArray.getPassword().equals(password)){
+        try{
+            Usuario usuarioFinal = dao.findRoleByUsername(usuario);
+            if(usuarioFinal.getUsuario().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("USER")){
                 HttpSession session = request.getSession(false);
                 UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
                 session.setAttribute("usuario", usuarioObjeto);
@@ -60,10 +58,28 @@ public class HomeController {
 
 
                 return "productos";
+        }else if(usuarioFinal.getUsuario().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("ADMIN")){
+                HttpSession session = request.getSession(false);
+                UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
+                session.setAttribute("usuario", usuarioObjeto);
+
+                List<Usuario> usuarios = dao.leeUsuarios();
+                System.out.println("Lista: " + usuarios);
+                model.addAttribute("usuarios", usuarios);
+                model.addAttribute("mensajeToast", "Operación completada con éxito!");
+
+
+                return "admin";
             }
+        }catch (Exception e){
+                return(e.getMessage());
         }
         return "formulario2";
+
+        //its worked
     }
+
+
     @PostMapping("/datosusuario")
     public String emailList (HttpServletRequest request, HttpServletResponse response) {
 
@@ -74,9 +90,11 @@ public class HomeController {
         String email = request.getParameter("email_form");
         String password = request.getParameter("password_form");
 
+
         System.out.println(nombre + apellidos +email+password);
         // Se crea el objeto usuario (se supone que existe la clase Usuario)
-        Usuario usuarioObject = new Usuario(nombre, apellidos,usuario, email, password);
+        //por defecto creo los usuarios con rol USER
+        Usuario usuarioObject = new Usuario(nombre, apellidos,usuario, email, password, "USER");
         System.out.println(dao.insertaUsuario(usuarioObject));
 
         //String userId = basededatos.inserta(usuario);
