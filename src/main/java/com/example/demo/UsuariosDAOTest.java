@@ -1,13 +1,9 @@
 package com.example.demo;
 
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.JDBCType;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,12 +32,17 @@ public class UsuariosDAOTest {
 
     public boolean insertaUsuario(Usuario usuario){
         String sql = "insert into usuarios( nombre, apellidos, alias, email, contraseña) values(?,?,?,?,?);";
-        this.jdbcTemplate.update(sql,  usuario.getNombre(), usuario.getApellidos(), usuario.getUsuario(), usuario.getEmail(), usuario.getPassword());
+        this.jdbcTemplate.update(sql,  usuario.getNombre(), usuario.getApellidos(), usuario.getAlias(), usuario.getEmail(), usuario.getPassword());
+
+        String sql2 = "insert into roles(alias, rol) values (?,?)";
+        this.jdbcTemplate.update(sql2, usuario.getAlias(), usuario.getRole());
         return true;
     }
 
     public List<Usuario> leeUsuarios() {
-        String sql = "SELECT id, nombre, apellidos, alias, email, contraseña FROM usuarios";
+        String sql = " SELECT u.nombre, u.apellidos, u.alias, u.email, u.contraseña, r.rol FROM usuarios u LEFT JOIN roles r ON u.alias = r.alias;";
+
+
         return jdbcTemplate.query(sql, usuarioRowMapper);
     }
 
@@ -50,10 +51,19 @@ public class UsuariosDAOTest {
         return jdbcTemplate.queryForObject(sql, usuarioRowMapper, username);
     }
     public Usuario findRoleByUsername(String username) {
-        String sql = "SELECT role FROM roles WHERE alias = ?";
+        String sql = "SELECT u.*, r.rol FROM usuarios u " +
+                "LEFT JOIN roles r ON u.alias = r.alias " +
+                "WHERE u.alias = ?";
         return jdbcTemplate.queryForObject(sql,usuarioRowMapper, username);
+
+
     }
 
+    public int eliminarUsuario(String alias){
+        String sqlDelete = "DELETE FROM usuarios WHERE alias=alias;";
+        return jdbcTemplate.update(sqlDelete);
+
+    }
 
 
     private final RowMapper<Usuario> usuarioRowMapper = (rs, rowNum) ->
@@ -64,7 +74,7 @@ public class UsuariosDAOTest {
 
                     rs.getString("email"),
                     rs.getString("contraseña"),
-                    rs.getString("role")
+                    rs.getString("rol")
             );
 
 

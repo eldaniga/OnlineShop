@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
     private String nombre;
     private String apellidos;
-    private String usuario;
+    private String alias;
 
     private String email;
     private String password;
@@ -16,7 +16,7 @@ public class Usuario implements Serializable {
     public Usuario(){
         this.nombre = "";
         this.apellidos = "";
-        this.usuario = "";
+        this.alias = "";
         this.email="";
         this.password = "";
         this.role="";
@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
     public Usuario(String nombre, String apellidos, String usuario, String email, String password, String role) {
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.usuario = usuario;
+        this.alias = usuario;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -42,8 +42,8 @@ public class Usuario implements Serializable {
     public String getApellidos() {
         return apellidos;
     }
-    public String getUsuario() {
-        return usuario;
+    public String getAlias() {
+        return alias;
     }
     public String getEmail() {
         return email;
@@ -66,8 +66,8 @@ public class Usuario implements Serializable {
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
-    public void setUsuario(String usuario) {
-        this.usuario=usuario;
+    public void setUsuario(String alias) {
+        this.alias=alias;
     }
 
     public void setEmail(String email) {
@@ -88,7 +88,7 @@ public class Usuario implements Serializable {
                 "email='" + email + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
-                ", usuario='" + usuario + '\'' +
+                ", usuario='" + alias + '\'' +
                 '}';
     }
 }

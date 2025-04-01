@@ -16,22 +16,26 @@
     <table>
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Rol</th>
-            <th>Rol</th>
-            <th>Rol</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Alias</th>
+            <th>Email</th>
             <th>Rol</th>
 
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user, iterStat : ${usuarios}"
-            th:class="${iterStat.odd} ? 'fila-gris' : 'fila-blanca'">
+        <tr th:each="user, iterStat : ${usuarios}" th:class="${iterStat.odd} ? 'fila-gris' : 'fila-blanca'">
             <td th:text="${user.nombre}"></td>
             <td th:text="${user.apellidos}"></td>
             <td th:text="${user.alias}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.role}"></td>
+            <td>
+                <form th:action="@{/eliminar/{alias}(alias=${user.alias})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </td>
 
         </tr>
         </tbody>

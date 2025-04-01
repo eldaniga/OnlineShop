@@ -1,20 +1,18 @@
 package com.example.demo;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.net.http.HttpRequest;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.sql.DataSource;
+import org.thymeleaf.exceptions.TemplateInputException;
 
 @Controller
 public class HomeController {
@@ -26,8 +24,6 @@ public class HomeController {
         this.dao = usuariosDAOTest;
     }
     @GetMapping("/")
-
-
     public String retornarForm(HttpServletRequest request, Model model){
         HttpSession session = request.getSession(false);
         if(session != null){
@@ -47,33 +43,42 @@ public class HomeController {
         String usuario = request.getParameter("user_form");
         String password = request.getParameter("password_form");
         System.out.println(usuario + " " + password);
+        if(request.getSession(false) != null){
+            try{
+                Usuario usuarioFinal = dao.findRoleByUsername(usuario);
 
-        try{
-            Usuario usuarioFinal = dao.findRoleByUsername(usuario);
-            if(usuarioFinal.getUsuario().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("USER")){
-                HttpSession session = request.getSession(false);
-                UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
-                session.setAttribute("usuario", usuarioObjeto);
-                model.addAttribute("mensajeToast", "Operación completada con éxito!");
-
-
-                return "productos";
-        }else if(usuarioFinal.getUsuario().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("ADMIN")){
-                HttpSession session = request.getSession(false);
-                UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
-                session.setAttribute("usuario", usuarioObjeto);
-
-                List<Usuario> usuarios = dao.leeUsuarios();
-                System.out.println("Lista: " + usuarios);
-                model.addAttribute("usuarios", usuarios);
-                model.addAttribute("mensajeToast", "Operación completada con éxito!");
+                //System.out.println(usuarioFinal.getRole());
+                if(usuarioFinal.getAlias().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("USER")){
+                    HttpSession session = request.getSession(false);
+                    UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
+                    session.setAttribute("usuario", usuarioObjeto);
+                    model.addAttribute("mensajeToast", "Operación completada con éxito!");
 
 
-                return "admin";
+                    return "productos";
+                }else if(usuarioFinal.getAlias().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("ADMIN")){
+                    HttpSession session = request.getSession(false);
+                    UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
+                    session.setAttribute("usuario", usuarioObjeto);
+
+                    List<Usuario> usuarios = dao.leeUsuarios();
+                    System.out.println("Lista: " + usuarios);
+                    model.addAttribute("usuarios", usuarios);
+                    model.addAttribute("mensajeToast", "Operación completada con éxito!");
+
+
+                    return "admin";
+                }
+            }catch (TemplateInputException e){
+                model.addAttribute("mensajeToast", "Ha ocurrido un error!!");
+                return "formulario2";
+            }catch (EmptyResultDataAccessException e){
+                model.addAttribute("mensajeToast", "No se encuentra el usuario dentro de nuestra Base de Datos");
+                return "formulario2";
             }
-        }catch (Exception e){
-                return(e.getMessage());
+
         }
+
         return "formulario2";
 
         //its worked
@@ -81,42 +86,51 @@ public class HomeController {
 
 
     @PostMapping("/datosusuario")
-    public String emailList (HttpServletRequest request, HttpServletResponse response) {
+    public String datosUsuarios(HttpServletRequest request, HttpServletResponse response, Model model) {
+        if(request.getSession(false) != null){ //if we have an actived session
+            try{
+                // Se leen los parámetros
+                HttpSession session = request.getSession(false);
 
-        // Se leen los parámetros
-        String nombre = request.getParameter("name_form");
-        String apellidos = request.getParameter("surnname_form");
-        String usuario = request.getParameter("alias_form");
-        String email = request.getParameter("email_form");
-        String password = request.getParameter("password_form");
+                String nombre = request.getParameter("name_form");
+                String apellidos = request.getParameter("surnname_form");
+                String alias = request.getParameter("alias_form");
+                String email = request.getParameter("email_form");
+                String password = request.getParameter("password_form");
 
 
-        System.out.println(nombre + apellidos +email+password);
-        // Se crea el objeto usuario (se supone que existe la clase Usuario)
-        //por defecto creo los usuarios con rol USER
-        Usuario usuarioObject = new Usuario(nombre, apellidos,usuario, email, password, "USER");
-        System.out.println(dao.insertaUsuario(usuarioObject));
+                System.out.println(nombre + apellidos +email+password);
+                // Se crea el objeto usuario (se supone que existe la clase Usuario)
+                //por defecto creo los usuarios con rol USER
+                Usuario usuarioObject = new Usuario(nombre, apellidos,alias, email, password, "USER");
+                System.out.println(dao.insertaUsuario(usuarioObject));
+                session.setAttribute("usuario", usuarioObject);
 
-        //String userId = basededatos.inserta(usuario);
+                model.addAttribute("mensajeToast", "Se ha registrado con éxito!");
 
-        // Dicho string se guardará en una cookie permanente para poder identificar
-        // en el futuro al usuario cuando vuelva a navegar por el sitio web
-        Cookie c = new Cookie("userIdCookie", email);
-        c.setMaxAge(60 * 60 * 24 * 365 * 2);
-        c.setPath("/");
-        response.addCookie(c);
-        //System.out.println(response.getC);
-        // De forma adicional, se guarda en la sesión
-        // el mismo objeto que en la base de datos
-        HttpSession session = request.getSession(false);
-        if(session == null){
-            //si no existe una sesion asociada, reenvia al register
-            return "formulario2";
+                return "formulario";
+
+            }catch (Exception SQLIntegrityConstraintViolationException){
+                return "formulario2";
+            }
+
         }
-        session.setAttribute("usuario", usuarioObject);
+        return "formulario2";
+    }
 
+    @PostMapping("/eliminar/{alias}")
+    public String eliminarUsuario(@PathVariable("alias") String alias) {
+        // Lógica para eliminar el usuario
 
-        return "productos";
+        dao.eliminarUsuario(alias);
+
+        // Redirigir a la lista de usuarios después de eliminar
+        return "admin";
+    }
+    @GetMapping("/admin")
+    public String adminView(HttpRequest request){
+
+        return "admin";
     }
 
 

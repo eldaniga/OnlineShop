@@ -15,11 +15,11 @@ public class UsuarioDTO {
     }
 
     // Getters y Setters
-    public String getUsuario() {
+    public String getAlias() {
         return alias;
     }
 
-    public void setUsuario(String alias) {
+    public void setAlias(String alias) {
         this.alias = alias;
     }
 

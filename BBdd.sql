@@ -18,7 +18,7 @@ CREATE TABLE usuarios(
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    alias VARCHAR(50) NOT NULL,
-    role ENUM('ADMIN', 'USER') NOT NULL,
+    alias VARCHAR(50) NOT NULL UNIQUE,
+    rol ENUM('ADMIN', 'USER') NOT NULL,
     FOREIGN KEY (alias) REFERENCES usuarios(alias) ON DELETE CASCADE
 );
