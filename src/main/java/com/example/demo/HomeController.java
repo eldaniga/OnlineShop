@@ -28,8 +28,15 @@ public class HomeController {
         HttpSession session = request.getSession(false);
         if(session != null){
             if(session.getAttribute("usuario") != null){
-                model.addAttribute("mensajeToast", "Operación completada con éxito!");
-                return "productos";
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+                if(usuario.getRole().equals("ADMIN")){
+                    return "admin";
+                }else{
+                    model.addAttribute("mensajeToast", "Operación completada con éxito!");
+                    return "productos";
+                }
+
             }
         }else{
             session = request.getSession(true);
@@ -50,21 +57,21 @@ public class HomeController {
                 //System.out.println(usuarioFinal.getRole());
                 if(usuarioFinal.getAlias().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("USER")){
                     HttpSession session = request.getSession(false);
-                    UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
-                    session.setAttribute("usuario", usuarioObjeto);
+                    //Usuario usuarioObjeto = new Usuario(usuario, password);
+                    session.setAttribute("usuario", usuarioFinal);
                     model.addAttribute("mensajeToast", "Operación completada con éxito!");
 
 
                     return "productos";
                 }else if(usuarioFinal.getAlias().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("ADMIN")){
                     HttpSession session = request.getSession(false);
-                    UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
-                    session.setAttribute("usuario", usuarioObjeto);
+                    //UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
+                    session.setAttribute("usuario", usuarioFinal);
 
                     List<Usuario> usuarios = dao.leeUsuarios();
                     System.out.println("Lista: " + usuarios);
                     model.addAttribute("usuarios", usuarios);
-                    model.addAttribute("mensajeToast", "Operación completada con éxito!");
+                    model.addAttribute("mensajeToast", "Disfruta de tu vista, " + usuario);
 
 
                     return "admin";
@@ -74,6 +81,7 @@ public class HomeController {
                 return "formulario2";
             }catch (EmptyResultDataAccessException e){
                 model.addAttribute("mensajeToast", "No se encuentra el usuario dentro de nuestra Base de Datos");
+                model.addAttribute("isBad", true);
                 return "formulario2";
             }
 
@@ -121,14 +129,22 @@ public class HomeController {
     @PostMapping("/eliminar/{alias}")
     public String eliminarUsuario(@PathVariable("alias") String alias) {
         // Lógica para eliminar el usuario
+        try{
+            if(dao.eliminarUsuario(alias) == 1){
+                System.out.println("Se ha elminado correcctamente");
+            }else{
+                System.out.println("Problemas al eliminar usuario");
+            }
 
-        dao.eliminarUsuario(alias);
+        }catch (Exception e){
+            return e.getMessage();
+        }
 
         // Redirigir a la lista de usuarios después de eliminar
         return "admin";
     }
     @GetMapping("/admin")
-    public String adminView(HttpRequest request){
+    public String adminView(HttpServletRequest request){
 
         return "admin";
     }

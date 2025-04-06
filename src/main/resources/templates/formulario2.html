@@ -6,21 +6,46 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Formulario Bonito</title>
     <link rel="stylesheet" href="cssIndex.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </head>
 <body>
-<div class="toast" th:classappend="${mensajeToast} ? 'show' : ''">
+<div class="toast" th:classappend="${isBad} ? 'showBad' : ''">
     <span th:text="${mensajeToast}"></span>
 </div>
+
+<style>
+    .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50; /* Verde */
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        display: none; /* Oculto por defecto */
+        z-index: 1000; /* Asegura que esté encima de otros elementos */
+    }
+    .toast.showBad{
+        display: block;
+        background-color: #ff3232; /* Verde */
+    }
+
+    .toast.show {
+        display: block; /* Muestra el toast */
+    }
+</style>
 <script th:inline="javascript">
     /*<![CDATA[*/
     addEventListener("DOMContentLoaded", ()=>{
         if ('${mensajeToast}') {
             setTimeout(function() {
                 document.querySelector('.toast').classList.remove('show');
+                document.querySelector('.toast').classList.remove('showBad');
             }, 2000); // 2000 milisegundos = 2 segundos
         }
     });
+
+</script>
 <div class="form-container">
     <h2>Registro</h2>
     <form id="formulario2" name= "formulario2" action="/datosusuario" method="post">

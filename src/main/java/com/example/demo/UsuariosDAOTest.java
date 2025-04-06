@@ -60,8 +60,8 @@ public class UsuariosDAOTest {
     }
 
     public int eliminarUsuario(String alias){
-        String sqlDelete = "DELETE FROM usuarios WHERE alias=alias;";
-        return jdbcTemplate.update(sqlDelete);
+        String sqlDelete = "DELETE FROM usuarios WHERE alias= ?;";
+        return jdbcTemplate.update(sqlDelete, alias);
 
     }
 
