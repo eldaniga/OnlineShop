@@ -7,12 +7,15 @@ import jakarta.servlet.http.HttpSession;
 import java.net.http.HttpRequest;
 import java.util.*;
 
+import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.exceptions.TemplateInputException;
+
+import javax.swing.plaf.synth.SynthTextAreaUI;
 
 @Controller
 public class HomeController {
@@ -63,7 +66,7 @@ public class HomeController {
                     session.setAttribute("usuario", usuarioFinal);
                     model.addAttribute("mensajeToast", "Operación completada con éxito!");
 
-                    return "productos";
+                    return "redirect:/productos";
 
                 }else if(usuarioFinal.getAlias().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("ADMIN")){
                     HttpSession session = request.getSession(false);
@@ -76,15 +79,15 @@ public class HomeController {
                     model.addAttribute("usuarios", usuarios);
                     model.addAttribute("mensajeToast", "Disfruta de tu vista, " + usuario);
 
-                    return "admin";
+                    return "redirect:/admin";
                 }
             }catch (TemplateInputException e){
                 model.addAttribute("mensajeToast", "Ha ocurrido un error!!");
-                return "formulario2";
+                return "redirect:/";
             }catch (EmptyResultDataAccessException e){
                 model.addAttribute("mensajeToast", "No se encuentra el usuario dentro de nuestra Base de Datos");
                 model.addAttribute("isBad", true);
-                return "formulario2";
+                return "redirect:/";
             }
 
         }
@@ -144,13 +147,36 @@ public class HomeController {
         }
 
         // Redirigir a la lista de usuarios después de eliminar
-        return "admin";
+        return "redirect:/admin";
     }
     @GetMapping("/admin")
     public String adminView(HttpServletRequest request, Model model){
         List<Usuario> usuarios = dao.leeUsuarios();
+        System.out.println("Size: " + usuarios.size());
+        if(usuarios.size() == 0){
+            return "redirect://";
+        }
         model.addAttribute("usuarios", usuarios);
         return "admin";
+    }
+
+    @GetMapping("/productos")
+    public String productsView(HttpServletRequest request, Model model){
+        HttpSession session  =  request.getSession(false);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario.getRole().equals("ADMIN")){
+
+            List<Usuario> usuarios = dao.leeUsuarios();
+            System.out.println("Size: " + usuarios.size());
+            if(usuarios.size() == 0){
+                return "redirect:/login";
+            }
+            model.addAttribute("usuarios", usuarios);
+            return "redirect:/admin";
+        }
+
+        return "productos";
     }
 
 
