@@ -31,6 +31,8 @@ public class HomeController {
                 Usuario usuario = (Usuario) session.getAttribute("usuario");
 
                 if(usuario.getRole().equals("ADMIN")){
+                    List<Usuario> usuarios = dao.leeUsuarios();
+                    model.addAttribute("usuarios", usuarios);
                     return "admin";
                 }else{
                     model.addAttribute("mensajeToast", "Operación completada con éxito!");
@@ -61,8 +63,8 @@ public class HomeController {
                     session.setAttribute("usuario", usuarioFinal);
                     model.addAttribute("mensajeToast", "Operación completada con éxito!");
 
-
                     return "productos";
+
                 }else if(usuarioFinal.getAlias().equals(usuario) && usuarioFinal.getPassword().equals(password) && usuarioFinal.getRole().equals("ADMIN")){
                     HttpSession session = request.getSession(false);
                     //UsuarioDTO usuarioObjeto = new UsuarioDTO(usuario, password);
@@ -70,9 +72,9 @@ public class HomeController {
 
                     List<Usuario> usuarios = dao.leeUsuarios();
                     System.out.println("Lista: " + usuarios);
+
                     model.addAttribute("usuarios", usuarios);
                     model.addAttribute("mensajeToast", "Disfruta de tu vista, " + usuario);
-
 
                     return "admin";
                 }
@@ -114,6 +116,7 @@ public class HomeController {
                 System.out.println(dao.insertaUsuario(usuarioObject));
                 session.setAttribute("usuario", usuarioObject);
 
+                //model.addAttribute("usuario", usuarioObject);
                 model.addAttribute("mensajeToast", "Se ha registrado con éxito!");
 
                 return "formulario";
@@ -144,8 +147,9 @@ public class HomeController {
         return "admin";
     }
     @GetMapping("/admin")
-    public String adminView(HttpServletRequest request){
-
+    public String adminView(HttpServletRequest request, Model model){
+        List<Usuario> usuarios = dao.leeUsuarios();
+        model.addAttribute("usuarios", usuarios);
         return "admin";
     }
 

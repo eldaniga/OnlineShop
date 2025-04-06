@@ -68,9 +68,10 @@ public class UsuariosDAOTest {
 
     private final RowMapper<Usuario> usuarioRowMapper = (rs, rowNum) ->
             new Usuario(
-                    rs.getString("alias"),
+
                     rs.getString("nombre"),
                     rs.getString("apellidos"),
+                    rs.getString("alias"),
 
                     rs.getString("email"),
                     rs.getString("contraseña"),
