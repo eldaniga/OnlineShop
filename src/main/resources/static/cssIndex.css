@@ -12,6 +12,10 @@ body {
     margin: 0;
     background: #f4f4f9;
 }
+
+.panel-body{
+
+}
 .form-container {
     background: #ffffff;
     padding: 20px 40px;

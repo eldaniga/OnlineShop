@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Online Shop by eldaniga</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script
+            src="https://www.paypal.com/sdk/js?client-id=BAAPNQ2L-WyN3vQy1tguKGn7mI-MOTE3kPuNLNh31Dzp4Ot-faXGUjW-Mah3fs2cFBlgI9YXfruqXE-YGY&components=hosted-buttons&disable-funding=venmo&currency=EUR">
+    </script>
 
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
@@ -97,56 +101,74 @@
 </nav>
 
 <div class="container">
+
     <div class="row">
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                <div class="panel-heading">SANSUMG S24 ULTRA</div>
+                <div class="panel-body">
+                    <img src="data:image/webp;base64,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" class="img-responsive" style="width:100%" alt="Image">
+                </div>
+                <div class="panel-footer">
+                    <div id="paypal-container-KWWK7PSPXKYP2">
+
+
+                        <script>
+                            paypal.HostedButtons({
+                                hostedButtonId: "KWWK7PSPXKYP2",
+                            }).render("#paypal-container-KWWK7PSPXKYP2")
+                        </script>
+                    </div></div>
+
             </div>
         </div>
         <div class="col-sm-4">
             <div class="panel panel-danger">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
+
+
+                    <div class="panel-heading">IPHONE 13</div>
+                    <div class="panel-body">
+                        <img src="data:image/webp;base64,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" class="img-responsive" style="width:100%" alt="Image">
+                    </div>
+                    <div class="panel-footer">
+                        <div id="paypal-container-C86WWE5H5EJ3E"></div>
+                        <script>
+                            paypal.HostedButtons({
+                                hostedButtonId: "C86WWE5H5EJ3E",
+                            }).render("#paypal-container-C86WWE5H5EJ3E")
+                        </script>
+                    </div>
+
+                </div>
+
         </div>
         <div class="col-sm-4">
             <div class="panel panel-success">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+
+
+                    <div class="panel-heading">SAMSUNG A32</div>
+                    <div class="panel-body">
+                        <img src="data:image/webp;base64,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" class="img-responsive" style="width:100%" alt="Image">
+                    </div>
+                    <div class="panel-footer">
+                        <div id="paypal-container-SQHBAS8FE2UGG">
+                            <script>
+                                paypal.HostedButtons({
+                                    hostedButtonId: "SQHBAS8FE2UGG",
+                                }).render("#paypal-container-SQHBAS8FE2UGG")
+                            </script>
+                    </div>
+
+                </div>
+
+
+
             </div>
         </div>
     </div>
 </div><br>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-        </div>
-    </div>
-</div><br><br>
+
 
 <footer class="container-fluid text-center">
     <p>Online Store Copyright</p>

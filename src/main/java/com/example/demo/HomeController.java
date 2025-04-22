@@ -163,20 +163,33 @@ public class HomeController {
     @GetMapping("/productos")
     public String productsView(HttpServletRequest request, Model model){
         HttpSession session  =  request.getSession(false);
+        if(session !=null){
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario.getRole().equals("ADMIN")){
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            if(usuario != null ){
+                if(usuario.getRole().equals("ADMIN")){
 
-            List<Usuario> usuarios = dao.leeUsuarios();
-            System.out.println("Size: " + usuarios.size());
-            if(usuarios.size() == 0){
+                    List<Usuario> usuarios = dao.leeUsuarios();
+                    System.out.println("Size: " + usuarios.size());
+                    if(usuarios.size() == 0){
+                        return "redirect:/login";
+                    }
+                    model.addAttribute("usuarios", usuarios);
+                    return "redirect:/admin";
+                }else{
+                    return "productos";
+                }
+            }else{
                 return "redirect:/login";
             }
-            model.addAttribute("usuarios", usuarios);
-            return "redirect:/admin";
+
+
         }
 
-        return "productos";
+        return "redirect:/login";
+
+
+
     }
 
 
